@@ -3,6 +3,10 @@
 *.a
 *.so
 
+debug
+debug.test
+
+
 # Folders
 _obj
 _test
