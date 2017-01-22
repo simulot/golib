@@ -1,7 +1,6 @@
 # golib
 My shared Go code library
 
-## File
 Package | Description 
 --------|------------
 walker| Explore folders and archives
