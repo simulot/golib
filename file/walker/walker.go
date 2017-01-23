@@ -11,7 +11,7 @@ import (
 var ErrWalkerNotFound = errors.New("Not an Opener")
 
 // Opener is the abstract Opener for a walker
-type Opener func(string) (OpenCloser, error)
+type Opener func(string) (Walker, error)
 
 // Matcher tells if the file can be open by the opener
 type Matcher func(string) bool
@@ -30,19 +30,16 @@ func Register(o Opener, m Matcher) {
 
 }
 
-// This files provides interfaces allowing  folder abstraction
-
-// OpenCloser interface
-type OpenCloser interface {
+// Walker interface for archive walker
+type Walker interface {
 	Close()
-	Items() chan ItemOpenCloser
+	Items() chan WalkItem
 }
 
-// ItemOpenCloser interface
-type ItemOpenCloser interface {
-	os.FileInfo                   //Underlaying file structure
-	Open() (io.ReadCloser, error) // File opener
-	FullName() string             // Give the full path of the file
-	Close() error                 // File closer
-	Done()                        // When the file belong to an arckive, Done means we don't need to access to this file.
+// WalkItem interface of archive item
+type WalkItem interface {
+	os.FileInfo                 //Underlaying file structure
+	FullName() string           // Give the full path of the file
+	Reader() (io.Reader, error) // Give a reader on archive item
+	Close()                     // Items must be closed.
 }

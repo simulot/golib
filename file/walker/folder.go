@@ -14,7 +14,7 @@ type Folder struct {
 }
 
 // Open opens a folder provided by os package
-func Open(path string) (OpenCloser, error) {
+func Open(path string) (*Folder, error) {
 	_, err := os.Stat(path)
 	if err != nil {
 		return nil, errors.Wrap(err, "Can't stat path in Folder.Open")
@@ -27,12 +27,14 @@ func Open(path string) (OpenCloser, error) {
 	return f, nil
 }
 
-// Close the folder. On os folder, there is nothing to do
+// Close the folder. For a folder, there is nothing to do
+// impelments Walker interface
 func (f *Folder) Close() {}
 
-// Items send folder content throught the channel
-func (f *Folder) Items() chan ItemOpenCloser {
-	out := make(chan ItemOpenCloser)
+// Items send folder content throught a channel
+// impelments Walker
+func (f *Folder) Items() chan Walker {
+	out := make(chan Walker)
 	go func() {
 		filepath.Walk(f.path, func(path string, info os.FileInfo, err error) error {
 			if info.IsDir() || err != nil {
@@ -46,19 +48,16 @@ func (f *Folder) Items() chan ItemOpenCloser {
 						if err != nil {
 							return err
 						}
-						for item := range o.Items() {
-							out <- item
-						}
-						o.Close()
+						out <- o
 						return nil
 					}
 				}
 			}
-
-			out <- &Item{
-				FileInfo: info,
-				path:     path,
+			o, err := FileWalkerOpen(path)
+			if err != nil {
+				return err
 			}
+			out <- o
 			return nil
 		})
 		close(out)
@@ -75,26 +74,50 @@ type Item struct {
 }
 
 // String implement stringer interface
-func (f *Item) String() string {
-	return f.FullName()
+func (i *Item) String() string {
+	return i.path
 }
 
 // FullName returns the item full name relative the folder path used for scanning
-func (f *Item) FullName() string {
-	return f.path
+func (i *Item) FullName() string {
+	return i.path
 }
 
-// Open opens the file pointed by the Folder Item
-func (f *Item) Open() (io.ReadCloser, error) {
+// Reader opens the file pointed by the Folder Item
+func (i *Item) Reader() (io.Reader, error) {
 	var err error
-	f.file, err = os.Open(f.FullName())
-	return f.file, err
+	i.file, err = os.Open(i.path)
+	return i.file, err
 }
 
 // Close the file pointed by the Folder Item
-func (f *Item) Close() error {
-	return f.file.Close()
+func (i *Item) Close() {
+	i.file.Close()
+	return
 }
 
-// Done do nothing in os.File context
-func (f *Item) Done() {}
+type FileAsWalker struct {
+	path string
+}
+
+func FileWalkerOpen(file string) (Walker, error) {
+	return &FileAsWalker{
+		path: file,
+	}, nil
+}
+
+func (f *FileAsWalker) Items() chan WalkItem {
+	out := make(chan WalkItem)
+	go func() {
+		info, err := os.Stat(f.path)
+		if err == nil {
+			out <- &Item{
+				FileInfo: info,
+				path:     f.path,
+			}
+		}
+		close(out)
+	}()
+	return out
+}
+func (f *FileAsWalker) Close() {}

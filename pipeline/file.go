@@ -16,7 +16,6 @@ import (
 // IN: chan string : wildcarded names
 // OUT: chan string : list of actual files correspondind to wildwards
 func GlobOperator() Operator {
-
 	return func(in, out chan interface{}) {
 		for i := range in {
 			if s, ok := i.(string); !ok {
@@ -33,6 +32,23 @@ func GlobOperator() Operator {
 	}
 }
 
+func FolderToWalkersOperator() Operator {
+	return func(in, out chan interface{}) {
+		for i := range in {
+			if path, ok := i.(string); ok {
+				w, err := walker.FileWalkerOpen(path)
+				if err != nil {
+					fmt.Println(err)
+					continue
+				}
+				out <- w
+			} else {
+				panic("Expectinng string in FolderToWalkersOperator")
+			}
+		}
+	}
+}
+
 // PathOperator returns an operator that will list all
 // files and archives in args.
 // in chan string: path
@@ -40,18 +56,13 @@ func GlobOperator() Operator {
 func WalkOperator() Operator {
 	return func(in, out chan interface{}) {
 		for i := range in {
-			if p, ok := i.(string); ok {
-				w, err := walker.Open(p)
-				if err != nil {
-					fmt.Println(err)
-					continue
-				}
+			if w, ok := i.(walker.Walker); ok {
 				for item := range w.Items() {
 					out <- item
 				}
 				w.Close()
 			} else {
-				panic("Expecting string in PathOperator")
+				panic("Expecting Walker in WalkOperator")
 			}
 		}
 	}
@@ -67,7 +78,7 @@ var seenFile = deDuplicate{}
 func FileDeduplicateOperator() Operator {
 	return func(in, out chan interface{}) {
 		for i := range in {
-			if item, ok := i.(walker.ItemOpenCloser); ok {
+			if item, ok := i.(walker.WalkItem); ok {
 				fullname := item.Name()
 				seenFile.Lock()
 				if _, ok := seenFile.m[fullname]; !ok {

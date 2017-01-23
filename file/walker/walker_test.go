@@ -48,7 +48,7 @@ func TestOpen(t *testing.T) {
 				t.Fatalf("Unexpected error %s", err)
 			}
 			for item := range folder.Items() {
-				reader, err := item.Open()
+				reader, err := item.Reader()
 				if err != nil {
 					t.Errorf("Unexpected error when opening '%s' from '%s'", item.FullName(), c.path)
 					return
@@ -58,7 +58,7 @@ func TestOpen(t *testing.T) {
 				if content != item.Name() {
 					t.Errorf("Expected content of '%s' file to by '%s', but got '%s'!", item.Name(), item.Name(), content)
 				}
-				reader.Close()
+				item.Close()
 			}
 			folder.Close()
 		})
