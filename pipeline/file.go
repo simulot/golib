@@ -5,8 +5,6 @@ import (
 
 	"path/filepath"
 
-	"sync"
-
 	"github.com/simulot/golib/file/walker"
 )
 
@@ -32,16 +30,22 @@ func GlobOperator() Operator {
 	}
 }
 
+// FolderToWalkersOperator accpets file names and directory names
+// and transforms it into a walker
+// IN string
+// OUT walker.Walker
 func FolderToWalkersOperator() Operator {
 	return func(in, out chan interface{}) {
 		for i := range in {
 			if path, ok := i.(string); ok {
-				w, err := walker.FileWalkerOpen(path)
+				w, err := walker.Open(path)
 				if err != nil {
 					fmt.Println(err)
 					continue
 				}
-				out <- w
+				for item := range w.Items() {
+					out <- walker.Walker(item)
+				}
 			} else {
 				panic("Expectinng string in FolderToWalkersOperator")
 			}
@@ -49,10 +53,9 @@ func FolderToWalkersOperator() Operator {
 	}
 }
 
-// PathOperator returns an operator that will list all
-// files and archives in args.
-// in chan string: path
-// out chan is a channel of FileItem
+// WalkOperator is an operator that walks through walker's items
+// IN walker.Walker
+// OUT waker.Items
 func WalkOperator() Operator {
 	return func(in, out chan interface{}) {
 		for i := range in {
@@ -68,6 +71,7 @@ func WalkOperator() Operator {
 	}
 }
 
+/*
 type deDuplicate struct {
 	sync.Mutex
 	m map[string]int
@@ -95,3 +99,4 @@ func FileDeduplicateOperator() Operator {
 		}
 	}
 }
+*/
