@@ -5,6 +5,7 @@ import (
 
 	"path/filepath"
 
+	"github.com/pkg/errors"
 	"github.com/simulot/golib/file/walker"
 )
 
@@ -66,6 +67,30 @@ func WalkOperator() Operator {
 				w.Close()
 			} else {
 				panic("Expecting Walker in WalkOperator")
+			}
+		}
+	}
+}
+
+// FileMaskOperator filter a channel of walker.WalkItem items using a file mask
+// IN : chan walker.WalkItem
+// OUT : chan walker.WalkItem
+func FileMaskOperator(mask string) Operator {
+	return func(in, out chan interface{}) {
+		for i := range in {
+			if item, ok := i.(walker.WalkItem); ok {
+				match, err := filepath.Match(mask, item.Name())
+				if err != nil {
+					fmt.Println(errors.Wrapf(err, "Can't use mask in FileMaskOperator"))
+					continue
+				}
+				if match {
+					out <- item
+				} else {
+					item.Close()
+				}
+			} else {
+				panic("Expecting walker.WalkItem in FileMaskOperator")
 			}
 		}
 	}
