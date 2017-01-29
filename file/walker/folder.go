@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/pkg/errors"
+	"github.com/simulot/golib/file/encoding"
 )
 
 // Folder handles a classical folder as provided by os file system.
@@ -28,11 +29,11 @@ func Open(path string) (*Folder, error) {
 }
 
 // Close the folder. For a folder, there is nothing to do
-// impelments Walker interface
+// implements Walker interface
 func (f *Folder) Close() {}
 
-// Items send folder content throught a channel
-// impelments Walker
+// Items send folder content through a channel
+// implements Walker
 func (f *Folder) Items() chan Walker {
 	out := make(chan Walker)
 	go func() {
@@ -70,7 +71,7 @@ func (f *Folder) Items() chan Walker {
 type Item struct {
 	os.FileInfo
 	path string
-	file *os.File
+	file io.ReadCloser
 }
 
 // String implement stringer interface
@@ -86,8 +87,12 @@ func (i *Item) FullName() string {
 // Reader opens the file pointed by the Folder Item
 func (i *Item) Reader() (io.Reader, error) {
 	var err error
-	i.file, err = os.Open(i.path)
-	return i.file, err
+	if i.file, err = os.Open(i.path); err == nil {
+		r := encoding.NewReader(i.file)
+		return r, err
+	} else {
+		return i.file, err
+	}
 }
 
 // Close the file pointed by the Folder Item

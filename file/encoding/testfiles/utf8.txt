@@ -1,0 +1,177 @@
+﻿28/10/2016 11:54:00 : Log file opened! (BWIFaceBasic v. 1.0.202)
+28/10/2016 11:54:00 : The parameter file used for initialization of Utils: BWMatching.ini
+ 
+28/10/2016 11:54:00 : DBType: ORACLE
+28/10/2016 11:54:00 : Creating BWUserLoginServerV5.clsServiceLogin component
+28/10/2016 11:54:00 : Creating ADODB connection (clsDB[Matching Utils]::Connect)
+28/10/2016 11:54:01 : Connection string has been found through Root URL: http://ecarbssa1568/bwroot
+28/10/2016 11:54:01 : Checking DBType: ORACLE
+28/10/2016 11:54:01 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT * FROM MS_UTILS_TASKS
+ 
+28/10/2016 11:54:01 : *****************************
+28/10/2016 11:54:01 : * Basware Matching  5.5.939 *
+28/10/2016 11:54:01 : *****************************
+ 
+28/10/2016 11:54:01 : Component versions that are used by BW Matching Utils:
+28/10/2016 11:54:01 : BWMSAPIGeneral.dll version 5.5.939 in use
+28/10/2016 11:54:01 : BWMSAPIContract.dll version 5.5.939 in use
+28/10/2016 11:54:01 : BWMSAPICategory.dll version 5.5.939 in use
+28/10/2016 11:54:01 : BWMSAPIUI.dll version 5.5.939 in use.
+28/10/2016 11:54:01 : BWIFaceInvoice.dll version 1.0.503 in use.
+28/10/2016 11:54:01 : BWIFaceDBMapper.dll version 3.2.16 in use
+ 
+28/10/2016 11:54:01 : Selecting records   (clsDB[Matching Utils]::OpenRecordsetParameterizedSQL) SQL: SELECT * FROM MS_PARAMETERS
+28/10/2016 11:54:01 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT DISTINCT 'EFLOW_PARAMS',EFLOW_PARAMS.* FROM EFLOW_PARAMS
+28/10/2016 11:54:01 : DISABLEBACKUPPERSONINCMCLIENT parameter value: True
+28/10/2016 11:54:01 : PM_MATCHING: FALSE
+28/10/2016 11:54:01 : Executing SQL       (clsDB[Matching Utils]::DoSQL)  SQL:SELECT 0 FROM MO_ORDER_DATA
+ 
+28/10/2016 11:54:01 : CM Functionalities started
+ 
+28/10/2016 11:54:01 : *****************************************************
+28/10/2016 11:54:01 : * Execution of CM - approval email functionality... *
+28/10/2016 11:54:01 : *****************************************************
+28/10/2016 11:54:01 : Selecting records   (clsDB[Matching Utils]::OpenRecordsetParameterizedSQL) SQL: SELECT *  FROM RI_CONTRACTS r1 WHERE CON_ISACTIVE in (0, 1) AND r1.CON_VERSION = (SELECT MAX(CON_VERSION) FROM RI_CONTRACTS r2 WHERE  r2.CON_PARENT_ID = r1.CON_PARENT_ID) AND CON_CREATED_BY_APPLICATION=1 AND  CON_ID IN(SELECT CUS_CON_ID FROM RI_CONTRACT_USERS WHERE CUS_STATUS=3 AND CUS_ROLE=0) ORDER BY CON_ID
+28/10/2016 11:54:01 : 0 contracts to process has been found
+28/10/2016 11:54:01 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT SYSDATE FROM DUAL
+28/10/2016 11:54:01 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT COUNT(*) FROM MS_UTILS_TASKS WHERE UTA_COD_CODE = '30010' 
+28/10/2016 11:54:01 : Executing SQL       (clsDB[Matching Utils]::DoSQL)  SQL:UPDATE MS_UTILS_TASKS SET UTA_RUN_TIME_STAMP = TO_DATE('28-10-2016 09:54:01','DD-MM-YYYY HH24:MI:SS'),UTA_ERROR_DESCRIPTION = '' WHERE UTA_COD_CODE = '30010' 
+28/10/2016 11:54:01 : Adding Matching Event to TaskId 30010, Event code: 30001, Event Type: 2
+28/10/2016 11:54:01 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: select substr(version,0,2)  from product_component_version where product like 'Oracle%'
+28/10/2016 11:54:01 : ng parametrized SQL (clsDB[Matching Utils]::DoSQL)  SQL:INSERT INTO MS_EVENTS (EVE_ID, EVE_TYPE, EVE_OBJECT_ID,EVE_APP_INDEX, EVE_GROUP_TYPE, EVE_CODE,EVE_STAMP_TIME, EVE_UID, EVE_COMMENT,EVE_ADDITIONAL_INFO, EVE_PARENT_EVE_ID, EVE_LEVEL) VALUES ('822AB51328874947BE43A8DEEE157F29',2,'30010','400',3,'30001',SYSTIMESTAMP,?,?,?,'',1)
+ 
+28/10/2016 11:54:01 : *****************************************************
+28/10/2016 11:54:01 : * Execution of CM - Reviewer email functionality... *
+28/10/2016 11:54:01 : *****************************************************
+28/10/2016 11:54:01 : Selecting records   (clsDB[Matching Utils]::OpenRecordsetParameterizedSQL) SQL: SELECT *  FROM RI_CONTRACTS r1 WHERE CON_ISACTIVE in (0, 1) AND r1.CON_VERSION = (SELECT MAX(CON_VERSION) FROM RI_CONTRACTS r2 WHERE  r2.CON_PARENT_ID = r1.CON_PARENT_ID) AND CON_CREATED_BY_APPLICATION=1 AND  CON_ID IN(SELECT CUS_CON_ID FROM RI_CONTRACT_USERS WHERE CUS_STATUS=2 AND CUS_ROLE=1) ORDER BY CON_ID
+28/10/2016 11:54:01 : 0 contracts to process has been found
+28/10/2016 11:54:01 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT SYSDATE FROM DUAL
+28/10/2016 11:54:01 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT COUNT(*) FROM MS_UTILS_TASKS WHERE UTA_COD_CODE = '30040' 
+28/10/2016 11:54:01 : Executing SQL       (clsDB[Matching Utils]::DoSQL)  SQL:UPDATE MS_UTILS_TASKS SET UTA_RUN_TIME_STAMP = TO_DATE('28-10-2016 09:54:02','DD-MM-YYYY HH24:MI:SS'),UTA_ERROR_DESCRIPTION = '' WHERE UTA_COD_CODE = '30040' 
+28/10/2016 11:54:01 : Adding Matching Event to TaskId 30040, Event code: 30001, Event Type: 2
+28/10/2016 11:54:01 : ng parametrized SQL (clsDB[Matching Utils]::DoSQL)  SQL:INSERT INTO MS_EVENTS (EVE_ID, EVE_TYPE, EVE_OBJECT_ID,EVE_APP_INDEX, EVE_GROUP_TYPE, EVE_CODE,EVE_STAMP_TIME, EVE_UID, EVE_COMMENT,EVE_ADDITIONAL_INFO, EVE_PARENT_EVE_ID, EVE_LEVEL) VALUES ('6EA631B08AE342AD896E2386EF2FC2E1',2,'30040','400',3,'30001',SYSTIMESTAMP,?,?,?,'',1)
+ 
+28/10/2016 11:54:01 : **************************************************************
+28/10/2016 11:54:01 : * Execution of CM - approval reminder email functionality... *
+28/10/2016 11:54:01 : **************************************************************
+28/10/2016 11:54:01 : Selecting records   (clsDB[Matching Utils]::OpenRecordsetParameterizedSQL) SQL: SELECT *  FROM RI_CONTRACTS r1 WHERE CON_ISACTIVE in (0, 1) AND r1.CON_VERSION = (SELECT MAX(CON_VERSION) FROM RI_CONTRACTS r2 WHERE  r2.CON_PARENT_ID = r1.CON_PARENT_ID) AND CON_CREATED_BY_APPLICATION=1 AND  CON_ID IN(SELECT CUS_CON_ID FROM RI_CONTRACT_USERS WHERE CUS_STATUS=4 AND CUS_ROLE=0) ORDER BY CON_ID
+28/10/2016 11:54:01 : 1 contracts to process has been found
+28/10/2016 11:54:01 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT RI_CONTRACT_USERS.*, EFLOW_USERS.LAN_CODE, EFLOW_USERS.USER_ADDRESS FROM RI_CONTRACT_USERS, EFLOW_USERS WHERE CUS_STATUS=4 AND CUS_ROLE=0 AND RI_CONTRACT_USERS.CUS_UID=EFLOW_USERS.USER_NAME ORDER BY CUS_CON_ID
+28/10/2016 11:54:02 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT DISTINCT LAN_CODE FROM EFLOW_USERS WHERE LAN_CODE IS NOT NULL
+28/10/2016 11:54:02 : Activation message files from folder: D:\Basware\Matching\Lang File's name body: BWMatchingUtilsMsg_
+28/10/2016 11:54:02 : 1 contracts were handled. 
+28/10/2016 11:54:02 : Execution of CM - approval reminder email functionality done.
+28/10/2016 11:54:02 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT SYSDATE FROM DUAL
+28/10/2016 11:54:02 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT COUNT(*) FROM MS_UTILS_TASKS WHERE UTA_COD_CODE = '30020' 
+28/10/2016 11:54:02 : Executing SQL       (clsDB[Matching Utils]::DoSQL)  SQL:UPDATE MS_UTILS_TASKS SET UTA_RUN_TIME_STAMP = TO_DATE('28-10-2016 09:54:02','DD-MM-YYYY HH24:MI:SS'),UTA_ERROR_DESCRIPTION = '' WHERE UTA_COD_CODE = '30020' 
+28/10/2016 11:54:02 : Adding Matching Event to TaskId 30020, Event code: 30001, Event Type: 2
+28/10/2016 11:54:02 : ng parametrized SQL (clsDB[Matching Utils]::DoSQL)  SQL:INSERT INTO MS_EVENTS (EVE_ID, EVE_TYPE, EVE_OBJECT_ID,EVE_APP_INDEX, EVE_GROUP_TYPE, EVE_CODE,EVE_STAMP_TIME, EVE_UID, EVE_COMMENT,EVE_ADDITIONAL_INFO, EVE_PARENT_EVE_ID, EVE_LEVEL) VALUES ('7F95267763DE4221B57DEF9C53DA07BF',2,'30020','400',3,'30001',SYSTIMESTAMP,?,?,?,'',1)
+ 
+28/10/2016 11:54:02 : *************************************************************************************
+28/10/2016 11:54:02 : * Execution of CM - Expired contracts and Expiration WARNING email functionality... *
+28/10/2016 11:54:02 : *************************************************************************************
+28/10/2016 11:54:02 : Selecting records   (clsDB[Matching Utils]::OpenRecordsetParameterizedSQL) SQL: SELECT *  FROM RI_CONTRACTS r1 WHERE r1.CON_VERSION = (SELECT MAX(CON_VERSION) FROM RI_CONTRACTS r2 WHERE  r2.CON_PARENT_ID = r1.CON_PARENT_ID) AND CON_CREATED_BY_APPLICATION=1 AND  CON_EXP_ENABLED = 1  AND SYSDATE - CON_VALID_UNTIL_DATE >= 0  AND (CON_EXP_NOTE_STAMP_TIME IS NULL  OR CON_EXP_NOTE_STAMP_TIME - CON_VALID_UNTIL_DATE < 0)  AND CON_ISACTIVE=1 ORDER BY CON_ID 
+28/10/2016 11:54:02 : 0 contract were found to check for Expiration.
+28/10/2016 11:54:02 : Selecting records   (clsDB[Matching Utils]::OpenRecordsetParameterizedSQL) SQL: SELECT *  FROM RI_CONTRACTS r1 WHERE r1.CON_VERSION = (SELECT MAX(CON_VERSION) FROM RI_CONTRACTS r2 WHERE  r2.CON_PARENT_ID = r1.CON_PARENT_ID) AND CON_CREATED_BY_APPLICATION=1 AND  CON_EXP_WARN_ENABLED = 1  AND CON_VALID_UNTIL_DATE - SYSDATE <= CON_EXP_WARN_DAYS  AND (CON_EXP_NOTE_STAMP_TIME - SYSDATE > 0  OR CON_EXP_NOTE_STAMP_TIME IS NULL) AND CON_VALID_UNTIL_DATE - SYSDATE > 0  AND CON_ISACTIVE=1 ORDER BY CON_ID 
+28/10/2016 11:54:02 : 0 contract were found to check for Expiration.
+28/10/2016 11:54:02 : 0 expired contracts were handled.
+28/10/2016 11:54:02 : 0 soon to be expired contracts were handled.
+28/10/2016 11:54:02 : Execution of CM - email contract expiration notes functionality done.
+28/10/2016 11:54:02 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT SYSDATE FROM DUAL
+28/10/2016 11:54:02 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT COUNT(*) FROM MS_UTILS_TASKS WHERE UTA_COD_CODE = '30060' 
+28/10/2016 11:54:02 : Executing SQL       (clsDB[Matching Utils]::DoSQL)  SQL:UPDATE MS_UTILS_TASKS SET UTA_RUN_TIME_STAMP = TO_DATE('28-10-2016 09:54:02','DD-MM-YYYY HH24:MI:SS'),UTA_ERROR_DESCRIPTION = '' WHERE UTA_COD_CODE = '30060' 
+28/10/2016 11:54:02 : Adding Matching Event to TaskId 30060, Event code: 30001, Event Type: 2
+28/10/2016 11:54:02 : ng parametrized SQL (clsDB[Matching Utils]::DoSQL)  SQL:INSERT INTO MS_EVENTS (EVE_ID, EVE_TYPE, EVE_OBJECT_ID,EVE_APP_INDEX, EVE_GROUP_TYPE, EVE_CODE,EVE_STAMP_TIME, EVE_UID, EVE_COMMENT,EVE_ADDITIONAL_INFO, EVE_PARENT_EVE_ID, EVE_LEVEL) VALUES ('6BC56480A51D49D581B92B00851FE03D',2,'30060','400',3,'30001',SYSTIMESTAMP,?,?,?,'',1)
+ 
+28/10/2016 11:54:02 : *************************************************************************
+28/10/2016 11:54:02 : * Execution of CM - Contract Update Notification email functionality... *
+28/10/2016 11:54:02 : *************************************************************************
+28/10/2016 11:54:02 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT * FROM RI_CONTRACT_UPDATES WHERE CUP_SEND_STATUS = 0
+28/10/2016 11:54:02 : 0 not sent notifications were found.
+28/10/2016 11:54:02 : 0 contract update notifications where handled.
+28/10/2016 11:54:02 : Execution of CM - email contract update notification functionality done.
+28/10/2016 11:54:02 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT SYSDATE FROM DUAL
+28/10/2016 11:54:02 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT COUNT(*) FROM MS_UTILS_TASKS WHERE UTA_COD_CODE = '30030' 
+28/10/2016 11:54:02 : Executing SQL       (clsDB[Matching Utils]::DoSQL)  SQL:UPDATE MS_UTILS_TASKS SET UTA_RUN_TIME_STAMP = TO_DATE('28-10-2016 09:54:02','DD-MM-YYYY HH24:MI:SS'),UTA_ERROR_DESCRIPTION = '' WHERE UTA_COD_CODE = '30030' 
+28/10/2016 11:54:02 : Adding Matching Event to TaskId 30030, Event code: 30001, Event Type: 2
+28/10/2016 11:54:02 : ng parametrized SQL (clsDB[Matching Utils]::DoSQL)  SQL:INSERT INTO MS_EVENTS (EVE_ID, EVE_TYPE, EVE_OBJECT_ID,EVE_APP_INDEX, EVE_GROUP_TYPE, EVE_CODE,EVE_STAMP_TIME, EVE_UID, EVE_COMMENT,EVE_ADDITIONAL_INFO, EVE_PARENT_EVE_ID, EVE_LEVEL) VALUES ('2BF9D06A1EC1415BA9FD5059B9F39EF0',2,'30030','400',3,'30001',SYSTIMESTAMP,?,?,?,'',1)
+28/10/2016 11:54:02 : DBCLEANUP Utils Task is not active, no actions required for CM_DoDBCleanUp.
+ 
+28/10/2016 11:54:02 : *******************************************************************
+28/10/2016 11:54:02 : * Execution of CM - automatic invoice generation functionality... *
+28/10/2016 11:54:02 : *******************************************************************
+28/10/2016 11:54:02 : *********************************************************************
+28/10/2016 11:54:02 : * ...not excecuted, interval or run after criterias not fullfilled. *
+28/10/2016 11:54:02 : *********************************************************************
+ 
+28/10/2016 11:54:02 : ***************************************************
+28/10/2016 11:54:02 : * Execution of CM - reject email functionality... *
+28/10/2016 11:54:02 : ***************************************************
+28/10/2016 11:54:02 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: select distinct ri_contracts.CON_ID, ri_contracts.CON_COMP_NAME,RI_CONTRACTS.CON_SUP_NAME,ri_contracts.CON_COMP_NAME,ri_contracts.CON_NUMBER,ri_contracts.CON_DESC, ri_contracts.CON_APPROVAL_STATUS,ri_contracts.CON_CREATOR_FULL_NAME,ri_contracts.CON_REJECTION_SEND_OPTIONS,eflow_users.LAN_CODE,eflow_users.USER_ADDRESS FROM ri_contracts Join EFLOW_USERS on ri_contracts.con_creator_full_name=EFLOW_USERS.USER_NAME WHERE RI_CONTRACTS.CON_APPROVAL_STATUS=1 and RI_CONTRACTS.CON_REJECTION_SEND_OPTIONS=0
+28/10/2016 11:54:02 : 0 contracts to process has been found
+28/10/2016 11:54:02 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT SYSDATE FROM DUAL
+28/10/2016 11:54:02 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT COUNT(*) FROM MS_UTILS_TASKS WHERE UTA_COD_CODE = '30099' 
+28/10/2016 11:54:02 : Executing SQL       (clsDB[Matching Utils]::DoSQL)  SQL:UPDATE MS_UTILS_TASKS SET UTA_RUN_TIME_STAMP = TO_DATE('28-10-2016 09:54:02','DD-MM-YYYY HH24:MI:SS'),UTA_ERROR_DESCRIPTION = '' WHERE UTA_COD_CODE = '30099' 
+28/10/2016 11:54:02 : Adding Matching Event to TaskId 30099, Event code: 30001, Event Type: 2
+28/10/2016 11:54:02 : ng parametrized SQL (clsDB[Matching Utils]::DoSQL)  SQL:INSERT INTO MS_EVENTS (EVE_ID, EVE_TYPE, EVE_OBJECT_ID,EVE_APP_INDEX, EVE_GROUP_TYPE, EVE_CODE,EVE_STAMP_TIME, EVE_UID, EVE_COMMENT,EVE_ADDITIONAL_INFO, EVE_PARENT_EVE_ID, EVE_LEVEL) VALUES ('A2F6FFADD0554206A01C53E7F6BD6149',2,'30099','400',3,'30001',SYSTIMESTAMP,?,?,?,'',1)
+28/10/2016 11:54:02 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT DISTINCT COLUMN_NAME FROM USER_TAB_COLUMNS WHERE UPPER(COLUMN_NAME) = 'CM_REQUEST_STATUS'
+ 
+28/10/2016 11:54:04 : *******************************************************************
+28/10/2016 11:54:04 : * Execution of CM - request approve/reject email functionality... *
+28/10/2016 11:54:04 : *******************************************************************
+28/10/2016 11:54:04 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT DOCS.doc_id, docs.comp_no ,DOCS.supplier_name,DOCS.invoice_num,  Docs.CM_REQUEST , eflow_users.LAN_CODE, eflow_users.USER_ADDRESS, action_log.log_index, action_log.stamp_uid  FROM DOCS Join action_log on docs.doc_id=action_log.doc_id Join EFLOW_USERS on action_log.stamp_uid=EFLOW_USERS.USER_NAME  WHERE action_log.log_index in ('1060','6031') and docs.CM_REQUEST_STATUS=1
+28/10/2016 11:54:04 : 0 invoices to process has been found
+28/10/2016 11:54:04 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT SYSDATE FROM DUAL
+28/10/2016 11:54:04 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT COUNT(*) FROM MS_UTILS_TASKS WHERE UTA_COD_CODE = '30102' 
+28/10/2016 11:54:04 : Executing SQL       (clsDB[Matching Utils]::DoSQL)  SQL:UPDATE MS_UTILS_TASKS SET UTA_RUN_TIME_STAMP = TO_DATE('28-10-2016 09:54:05','DD-MM-YYYY HH24:MI:SS'),UTA_ERROR_DESCRIPTION = '' WHERE UTA_COD_CODE = '30102' 
+28/10/2016 11:54:04 : Adding Matching Event to TaskId 30102, Event code: 30001, Event Type: 2
+28/10/2016 11:54:04 : ng parametrized SQL (clsDB[Matching Utils]::DoSQL)  SQL:INSERT INTO MS_EVENTS (EVE_ID, EVE_TYPE, EVE_OBJECT_ID,EVE_APP_INDEX, EVE_GROUP_TYPE, EVE_CODE,EVE_STAMP_TIME, EVE_UID, EVE_COMMENT,EVE_ADDITIONAL_INFO, EVE_PARENT_EVE_ID, EVE_LEVEL) VALUES ('5AF37459587443DC89A2AFCB6E33149D',2,'30102','400',3,'30001',SYSTIMESTAMP,?,?,?,'',1)
+ 
+28/10/2016 11:54:04 : ***********************************************************
+28/10/2016 11:54:04 : * Execution of CM - enable/disable email functionality... *
+28/10/2016 11:54:04 : ***********************************************************
+28/10/2016 11:54:05 : Selecting records   (clsDB[Matching Utils]::OpenRecordsetParameterizedSQL) SQL: SELECT *  FROM RI_CONTRACTS r1 WHERE CON_ISACTIVE in (0, 1) AND r1.CON_VERSION = (SELECT MAX(CON_VERSION) FROM RI_CONTRACTS r2 WHERE  r2.CON_PARENT_ID = r1.CON_PARENT_ID) AND CON_CREATED_BY_APPLICATION=1 AND  CON_ID IN(SELECT CUS_CON_ID FROM RI_CONTRACT_USERS WHERE CON_ENABLE_DISABLE_STATUS=1) order by con_id
+28/10/2016 11:54:05 : 0 contracts to process has been found
+28/10/2016 11:54:05 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT SYSDATE FROM DUAL
+28/10/2016 11:54:05 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT COUNT(*) FROM MS_UTILS_TASKS WHERE UTA_COD_CODE = '30101' 
+28/10/2016 11:54:05 : Executing SQL       (clsDB[Matching Utils]::DoSQL)  SQL:UPDATE MS_UTILS_TASKS SET UTA_RUN_TIME_STAMP = TO_DATE('28-10-2016 09:54:05','DD-MM-YYYY HH24:MI:SS'),UTA_ERROR_DESCRIPTION = '' WHERE UTA_COD_CODE = '30101' 
+28/10/2016 11:54:05 : Adding Matching Event to TaskId 30101, Event code: 30001, Event Type: 2
+28/10/2016 11:54:05 : ng parametrized SQL (clsDB[Matching Utils]::DoSQL)  SQL:INSERT INTO MS_EVENTS (EVE_ID, EVE_TYPE, EVE_OBJECT_ID,EVE_APP_INDEX, EVE_GROUP_TYPE, EVE_CODE,EVE_STAMP_TIME, EVE_UID, EVE_COMMENT,EVE_ADDITIONAL_INFO, EVE_PARENT_EVE_ID, EVE_LEVEL) VALUES ('74D8530DB47849068B47C54CF8C4988C',2,'30101','400',3,'30001',SYSTIMESTAMP,?,?,?,'',1)
+ 
+28/10/2016 11:54:05 : **************************************************************************************
+28/10/2016 11:54:05 : * Execution of CM - Contract schedule going to expire WARNING email functionality... *
+28/10/2016 11:54:05 : **************************************************************************************
+28/10/2016 11:54:05 : Selecting records   (clsDB[Matching Utils]::OpenRecordsetParameterizedSQL) SQL: SELECT *  FROM RI_CONTRACTS r1 WHERE CON_ISACTIVE in (0, 1) AND r1.CON_VERSION = (SELECT MAX(CON_VERSION) FROM RI_CONTRACTS r2 WHERE  r2.CON_PARENT_ID = r1.CON_PARENT_ID) AND CON_CREATED_BY_APPLICATION=1 AND  CON_ID IN (select distinct b.CON_ID from RI_PAYMENT_SCHEDULE a join ri_contracts b on a.PSC_CON_ID=b.CON_ID where  b.CON_SCH_EXP_WARN_ENABLED = 1 )
+28/10/2016 11:54:05 : Selecting records   (clsDB[Matching Utils]::OpenRecordsetParameterizedSQL) SQL: select  a.PSC_CON_ID,a.PSC_EXPECTED_INVOICE_DATE from RI_PAYMENT_SCHEDULE a join ri_contracts b on a.PSC_CON_ID=b.CON_ID where b.CON_SCH_EXP_WARN_ENABLED = 1 order by a.PSC_CON_ID,a.PSC_ROWID desc
+28/10/2016 11:54:05 : 0 contract were found to check for Schedule Expiration.
+28/10/2016 11:54:05 : 0 soon to be expired contract schedules were handled.
+28/10/2016 11:54:05 : Execution of CM - email contract schedule expiration notes functionality done.
+28/10/2016 11:54:05 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT SYSDATE FROM DUAL
+28/10/2016 11:54:05 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT COUNT(*) FROM MS_UTILS_TASKS WHERE UTA_COD_CODE = '30100' 
+28/10/2016 11:54:05 : Executing SQL       (clsDB[Matching Utils]::DoSQL)  SQL:UPDATE MS_UTILS_TASKS SET UTA_RUN_TIME_STAMP = TO_DATE('28-10-2016 09:54:05','DD-MM-YYYY HH24:MI:SS'),UTA_ERROR_DESCRIPTION = '' WHERE UTA_COD_CODE = '30100' 
+28/10/2016 11:54:05 : Adding Matching Event to TaskId 30100, Event code: 30001, Event Type: 2
+28/10/2016 11:54:05 : ng parametrized SQL (clsDB[Matching Utils]::DoSQL)  SQL:INSERT INTO MS_EVENTS (EVE_ID, EVE_TYPE, EVE_OBJECT_ID,EVE_APP_INDEX, EVE_GROUP_TYPE, EVE_CODE,EVE_STAMP_TIME, EVE_UID, EVE_COMMENT,EVE_ADDITIONAL_INFO, EVE_PARENT_EVE_ID, EVE_LEVEL) VALUES ('79165CE519F146BD8D62A213B85F8281',2,'30100','400',3,'30001',SYSTIMESTAMP,?,?,?,'',1)
+ 
+28/10/2016 11:54:05 : **************************************************
+28/10/2016 11:54:05 : * Execution of CM - Budget notification email... *
+28/10/2016 11:54:05 : **************************************************
+28/10/2016 11:54:05 : Selecting records   (clsDB[Matching Utils]::OpenRecordsetParameterizedSQL) SQL: SELECT *  FROM RI_CONTRACTS r1 WHERE CON_ISACTIVE = 1 AND CON_ACCEPT_INVOICES = 1 AND r1.CON_VERSION = (SELECT MAX(CON_VERSION) FROM RI_CONTRACTS r2 WHERE  r2.CON_PARENT_ID = r1.CON_PARENT_ID) AND CON_CREATED_BY_APPLICATION=1 AND  CON_MATCHING_TYPE = 1 AND CON_BUD_WARN_ENABLED = 1 AND CON_BUD_WARN_TIMESTAMP IS NULL
+28/10/2016 11:54:05 : 1 contracts found for budget notification checking.
+28/10/2016 11:54:05 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT DISTINCT LAN_CODE FROM EFLOW_USERS WHERE LAN_CODE IS NOT NULL
+28/10/2016 11:54:05 : Activation message files from folder: D:\Basware\Matching\Lang File's name body: BWMatchingUtilsMsg_
+28/10/2016 11:54:05 : Selecting records   (clsDB[Matching Utils]::OpenRecordsetParameterizedSQL) SQL: SELECT RI_MATCHED_INVOICES.*, MS_LOG.LOG_MATCH_STATUS_INDEX FROM RI_MATCHED_INVOICES, MS_LOG WHERE MIN_CON_ID = ? and (MIN_INVOICE_ID = LOG_DOC_ID) ORDER BY MIN_MATCHED_DATE DESC
+28/10/2016 11:54:05 : Budget left 10000, which is not below defined notification limit 500
+28/10/2016 11:54:05 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT SYSDATE FROM DUAL
+28/10/2016 11:54:05 : Selecting records   (clsDB[Matching Utils]::OpenRs) SQL: SELECT COUNT(*) FROM MS_UTILS_TASKS WHERE UTA_COD_CODE = '30098' 
+28/10/2016 11:54:05 : Executing SQL       (clsDB[Matching Utils]::DoSQL)  SQL:UPDATE MS_UTILS_TASKS SET UTA_RUN_TIME_STAMP = TO_DATE('28-10-2016 09:54:05','DD-MM-YYYY HH24:MI:SS'),UTA_ERROR_DESCRIPTION = '' WHERE UTA_COD_CODE = '30098' 
+28/10/2016 11:54:05 : Adding Matching Event to TaskId 30098, Event code: 30001, Event Type: 2
+28/10/2016 11:54:05 : ng parametrized SQL (clsDB[Matching Utils]::DoSQL)  SQL:INSERT INTO MS_EVENTS (EVE_ID, EVE_TYPE, EVE_OBJECT_ID,EVE_APP_INDEX, EVE_GROUP_TYPE, EVE_CODE,EVE_STAMP_TIME, EVE_UID, EVE_COMMENT,EVE_ADDITIONAL_INFO, EVE_PARENT_EVE_ID, EVE_LEVEL) VALUES ('DE1A0A0007F34F8C8400D18491DE724C',2,'30098','400',3,'30001',SYSTIMESTAMP,?,?,?,'',1)
+28/10/2016 11:54:05 : CM Functionalities ended
+ 
+28/10/2016 11:54:05 : OM Functionalities started
+28/10/2016 11:54:05 : Task should not be executed based on Utils task setting, no actions required for OM_DoDBCleanUp.
+28/10/2016 11:54:05 : OM Functionalities ended
+ 
+28/10/2016 11:54:05 : Execution of the Basware Matching  has ended succesfully!
+28/10/2016 11:54:05 : Log files expiration days set to 10
+28/10/2016 11:54:05 : Disconnecting            (clsDB[Matching Utils]::DisConnect)

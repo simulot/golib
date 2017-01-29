@@ -9,6 +9,7 @@ import (
 	"sync"
 
 	"github.com/pkg/errors"
+	"github.com/simulot/golib/file/encoding"
 	"github.com/simulot/golib/file/walker"
 )
 
@@ -41,8 +42,8 @@ func Open(path string) (walker.Walker, error) {
 	return z, nil
 }
 
-// Close the Ziped archive.
-// Return imediatly, close zip after last reference is done or close
+// Close the Zipped archive.
+// Return immediately, close zip after last reference is done or close
 func (z *Zip) Close() {
 	go func() {
 		// Wait that all items have been released using Done()
@@ -58,7 +59,7 @@ func (z *Zip) Items() chan walker.WalkItem {
 		for _, item := range z.archive.File {
 			info := item.FileHeader.FileInfo()
 			if !info.IsDir() {
-				z.wg.Add(1) // Remeber we have emitted an Item
+				z.wg.Add(1) // Remember that we have emitted an Item
 				out <- &Item{
 					FileInfo: info,
 					file:     item,
@@ -89,7 +90,10 @@ func (i *Item) FullName() string {
 // Reader give a Reader on the archive Item
 func (i *Item) Reader() (io.Reader, error) {
 	var err error
-	i.rc, err = i.file.Open()
+	if i.rc, err = i.file.Open(); err == nil {
+		r := encoding.NewReader(i.rc)
+		return r, nil
+	}
 	return i.rc, err
 }
 
