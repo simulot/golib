@@ -9,7 +9,7 @@ import (
 	"github.com/simulot/golib/file/walker"
 )
 
-// GlobOperator return the exanded list of files
+// GlobOperator return the expanded list of files
 // corresponding to wildcards.
 //
 // IN: chan string : wildcarded names
@@ -48,7 +48,7 @@ func FolderToWalkersOperator() Operator {
 					out <- walker.Walker(item)
 				}
 			} else {
-				panic("Expectinng string in FolderToWalkersOperator")
+				panic("Expecting string in FolderToWalkersOperator")
 			}
 		}
 	}
