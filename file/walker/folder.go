@@ -54,6 +54,7 @@ func (f *Folder) Items() chan Walker {
 					}
 				}
 			}
+			// this is a regular file...
 			o, err := FileWalkerOpen(path)
 			if err != nil {
 				return err
@@ -74,7 +75,7 @@ type Item struct {
 	file io.ReadCloser
 }
 
-// String implement stringer interface
+// String implements stringer interface
 func (i *Item) String() string {
 	return i.path
 }
@@ -87,17 +88,21 @@ func (i *Item) FullName() string {
 // Reader opens the file pointed by the Folder Item
 func (i *Item) Reader() (io.Reader, error) {
 	var err error
+	if i.file != nil {
+		panic(i.path + " is already open")
+	}
 	if i.file, err = os.Open(i.path); err == nil {
 		r := encoding.NewReader(i.file)
 		return r, err
-	} else {
-		return i.file, err
 	}
+	return i.file, err
 }
 
-// Close the file pointed by the Folder Item
+// Close the file pointed by the Folder Item whenever it is opened
 func (i *Item) Close() {
-	i.file.Close()
+	if i.file != nil {
+		i.file.Close()
+	}
 	return
 }
 
