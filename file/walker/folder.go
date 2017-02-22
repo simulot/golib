@@ -85,6 +85,11 @@ func (i *Item) FullName() string {
 	return i.path
 }
 
+// MemberName return the file name
+func (i *Item) MemberName() string {
+	return i.path
+}
+
 // Reader opens the file pointed by the Folder Item
 func (i *Item) Reader() (io.Reader, error) {
 	var err error

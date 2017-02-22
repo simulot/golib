@@ -85,6 +85,11 @@ type Item struct {
 	rc          io.ReadCloser // The opened reader on the item
 }
 
+// MemberName returns archive member name only
+func (i *Item) MemberName() string {
+	return i.path[len(i.zip.path):]
+}
+
 // FullName returns the item full name relative the folder path used for scanning
 func (i *Item) FullName() string {
 	return i.path

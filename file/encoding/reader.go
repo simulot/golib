@@ -5,7 +5,6 @@ import (
 	"io"
 
 	"github.com/pkg/errors"
-
 	"golang.org/x/text/encoding/unicode"
 	"golang.org/x/text/transform"
 )

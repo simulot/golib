@@ -20,7 +20,10 @@ func GlobOperator() Operator {
 			if s, ok := i.(string); !ok {
 				panic("Expecting string in GlobOperator")
 			} else {
-				paths, _ := filepath.Glob(s)
+				paths, err := filepath.Glob(s)
+				if err != nil {
+					fmt.Println(err)
+				}
 				if paths != nil {
 					for _, p := range paths {
 						out <- p
@@ -91,6 +94,26 @@ func FileMaskOperator(mask string) Operator {
 				}
 			} else {
 				panic("Expecting walker.WalkItem in FileMaskOperator")
+			}
+		}
+	}
+}
+
+// FileFilterOperator filter a channel of walker.WalkItem items using a filter function
+// IN : chan walker.WalkItem
+// OUT : chan walker.WalkItem
+func FileFilterOperator(filter func(walker.WalkItem) bool) Operator {
+	return func(in, out chan interface{}) {
+		for i := range in {
+			if item, ok := i.(walker.WalkItem); ok {
+				match := filter(item)
+				if match {
+					out <- item
+				} else {
+					item.Close()
+				}
+			} else {
+				panic("Expecting walker.WalkItem in FileFilterOperator")
 			}
 		}
 	}

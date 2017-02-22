@@ -45,4 +45,5 @@ type WalkItem interface {
 	FullName() string           // Give the full path of the file
 	Reader() (io.Reader, error) // Give a reader on archive item
 	Close()                     // Items must be closed.
+	MemberName() string         // When Walkitem is an archive, returns archive member name, otherwise returns file name
 }
