@@ -27,7 +27,9 @@ func NewFlow(ops ...Operator) Flow {
 
 func (f Flow) Run(in chan interface{}) chan interface{} {
 	for _, o := range f {
-		in = o.Run(in)
+		if o != nil {
+			in = o.Run(in)
+		}
 	}
 	return in
 }
