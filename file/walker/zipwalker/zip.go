@@ -123,3 +123,15 @@ func (i *Item) Close() {
 func (i *Item) String() string {
 	return i.path
 }
+
+// Clone item
+func (i *Item) Clone() walker.WalkItem {
+	n := &Item{
+		zip:      i.zip,
+		file:     i.file,
+		FileInfo: i.FileInfo,
+		path:     i.path,
+	}
+	i.zip.wg.Add(1) // Remember that we have emitted an Item
+	return n
+}

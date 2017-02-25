@@ -111,6 +111,14 @@ func (i *Item) Close() {
 	return
 }
 
+// Clone Item except the file.
+func (i *Item) Clone() WalkItem {
+	return &Item{
+		FileInfo: i.FileInfo,
+		path:     i.path,
+	}
+}
+
 type FileAsWalker struct {
 	path string
 }
